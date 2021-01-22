@@ -45,17 +45,17 @@ def filtered(result):
 
 
 def write_dev_csv(dev):
-    dev.to_csv('../Data/electronics/dev.csv')
+    dev.to_csv('../Data/clothing_shoes_jewelry/dev.csv')
     print('File: dev.csv finished.')
 
 
 def write_test_csv(dev):
-    dev.to_csv('../Data/electronics/test.csv')
+    dev.to_csv('../Data/clothing_shoes_jewelry/test.csv')
     print('File: dev.csv finished.')
     
     
 if __name__ == '__main__':
-    _path = '../Data/electronics/dev_u.csv'
+    _path = '../Data/clothing_shoes_jewelry/dev_u.csv'
     _result = read_csv(_path)
     
     _id_left, _text_left, _id_right, _text_right, _label = filtered(_result)
@@ -67,7 +67,7 @@ if __name__ == '__main__':
                              'label': _label})
     write_dev_csv(_dev)
 
-    _path = '../Data/electronics/test_u.csv'
+    _path = '../Data/clothing_shoes_jewelry/test_u.csv'
     _result = read_csv(_path)
 
     _id_left, _text_left, _id_right, _text_right, _label = filtered(_result)

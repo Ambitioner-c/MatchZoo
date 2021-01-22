@@ -26,32 +26,32 @@ def recombination(path):
         for k in questions:
             answers = k['answers']
             right_num = 0
+
+            total = 0
+            for m in answers:
+                total += m['helpful'][1]
+
             for m in answers:
                 _question = ''
-                _answers = []
                 _question = str(k['questionText']).replace(',', ' ').\
                     replace('\ude03', '').replace('\ud83d', '').replace('\ude0a', '').\
                     replace('?', ' ').replace('\n', '').replace('\n\r', '')
                 answer = str(m['answerText']).replace(',', ' ').\
                     replace('\ude03', '').replace('\ud83d', '').replace('\ude0a', '').\
-                    replace('?', ' ').replace('\n', '').replace('\n\r', '')
-                helpful = str(m['helpful'][0])
-                if answer not in _answers and len(answer) < 500:
-                    _answers.append(answer)
-
-                for n in range(len(_answers)):
-                    if helpful == '0':
-                        id_left.append('Q' + str(left_num))
-                        text_left.append(_question)
-                        id_right.append('D'+str(left_num)+'-'+str(right_num))
-                        text_right.append(_answers[n])
-                        label.append(0.0)
-                    else:
-                        id_left.append('Q' + str(left_num))
-                        text_left.append(_question)
-                        id_right.append('D' + str(left_num) + '-' + str(right_num))
-                        text_right.append(_answers[n])
-                        label.append(1.0)
+                    replace('?', ' ').replace('\n', '').replace('\n\r', '')[:500]
+                helpful = m['helpful'][0]
+                if (helpful >= total * 2 / 3 or helpful >= 5) and helpful is not 0:
+                    id_left.append('Q' + str(left_num))
+                    text_left.append(_question)
+                    id_right.append('D' + str(left_num) + '-' + str(right_num))
+                    text_right.append(answer)
+                    label.append(1.0)
+                else:
+                    id_left.append('Q' + str(left_num))
+                    text_left.append(_question)
+                    id_right.append('D'+str(left_num)+'-'+str(right_num))
+                    text_right.append(answer)
+                    label.append(0.0)
                 right_num += 1
             left_num += 1
 
@@ -59,37 +59,37 @@ def recombination(path):
 
 
 def write_csv(train, dev, test):
-    train.to_csv('../Data/electronics/train.csv')
+    train.to_csv('../Data/clothing_shoes_jewelry/train.csv')
     print('File: train.csv finished.')
 
-    dev.to_csv('../Data/electronics/dev_u.csv')
+    dev.to_csv('../Data/clothing_shoes_jewelry/dev_u.csv')
     print('File: dev.csv finished.')
 
-    test.to_csv('../Data/electronics/test_u.csv')
+    test.to_csv('../Data/clothing_shoes_jewelry/test_u.csv')
     print('File: test.csv finished.')
 
 
 if __name__ == '__main__':
-    _path = '../Data/electronics/QA_Electronics.json'
+    _path = '../Data/clothing_shoes_jewelry/QA_Clothing_Shoes_and_Jewelry.json'
     _id_left, _text_left, _id_right, _text_right, _label = recombination(_path)
     _length = len(_label)
-    _df_train = pd.DataFrame({'id_left': _id_left[:int(0.5 * _length)],
-                              'text_left': _text_left[:int(0.5 * _length)],
-                              'id_right': _id_right[:int(0.5 * _length)],
-                              'text_right': _text_right[:int(0.5 * _length)],
-                              'label': _label[:int(0.5 * _length)]})
+    _df_train = pd.DataFrame({'id_left': _id_left[:int(0.52 * _length)],
+                              'text_left': _text_left[:int(0.52 * _length)],
+                              'id_right': _id_right[:int(0.52 * _length)],
+                              'text_right': _text_right[:int(0.52 * _length)],
+                              'label': _label[:int(0.52 * _length)]})
 
-    _df_dev = pd.DataFrame({'id_left': _id_left[int(0.5 * _length):int(0.75 * _length)],
-                            'text_left': _text_left[int(0.5 * _length):int(0.75 * _length)],
-                            'id_right': _id_right[int(0.5 * _length):int(0.75 * _length)],
-                            'text_right': _text_right[int(0.5 * _length):int(0.75 * _length)],
-                            'label': _label[int(0.5 * _length):int(0.75 * _length)]})
+    _df_dev = pd.DataFrame({'id_left': _id_left[int(0.52 * _length):int(0.68 * _length)],
+                            'text_left': _text_left[int(0.52 * _length):int(0.68 * _length)],
+                            'id_right': _id_right[int(0.52 * _length):int(0.68 * _length)],
+                            'text_right': _text_right[int(0.52 * _length):int(0.68 * _length)],
+                            'label': _label[int(0.52 * _length):int(0.68 * _length)]})
 
-    _df_test = pd.DataFrame({'id_left': _id_left[int(0.75 * _length):],
-                             'text_left': _text_left[int(0.75 * _length):],
-                             'id_right': _id_right[int(0.75 * _length):],
-                             'text_right': _text_right[int(0.75 * _length):],
-                             'label': _label[int(0.75 * _length):]})
+    _df_test = pd.DataFrame({'id_left': _id_left[int(0.68 * _length):],
+                             'text_left': _text_left[int(0.68 * _length):],
+                             'id_right': _id_right[int(0.68 * _length):],
+                             'text_right': _text_right[int(0.68 * _length):],
+                             'label': _label[int(0.68 * _length):]})
     # _df_train = pd.DataFrame({'id_left': _id_left[540:590],
     #                           'text_left': _text_left[540:590],
     #                           'id_right': _id_right[540:590],
@@ -231,23 +231,23 @@ if __name__ == '__main__':
 #     _path = '../Data/clothing_shoes_jewelry/QA_Clothing_Shoes_and_Jewelry.json'
 #     _id_left, _text_left, _id_right, _text_right, _label = recombination(_path)
 #     _length = len(_label)
-#     # _df_train = pd.DataFrame({'id_left': _id_left[:int(0.5 * _length)],
-#     #                           'text_left': _text_left[:int(0.5 * _length)],
-#     #                           'id_right': _id_right[:int(0.5 * _length)],
-#     #                           'text_right': _text_right[:int(0.5 * _length)],
-#     #                           'label': _label[:int(0.5 * _length)]})
+#     # _df_train = pd.DataFrame({'id_left': _id_left[:int(0.52 * _length)],
+#     #                           'text_left': _text_left[:int(0.52 * _length)],
+#     #                           'id_right': _id_right[:int(0.52 * _length)],
+#     #                           'text_right': _text_right[:int(0.52 * _length)],
+#     #                           'label': _label[:int(0.52 * _length)]})
 #     #
-#     # _df_dev = pd.DataFrame({'id_left': _id_left[int(0.5 * _length):int(0.75 * _length)],
-#     #                         'text_left': _text_left[int(0.5 * _length):int(0.75 * _length)],
-#     #                         'id_right': _id_right[int(0.5 * _length):int(0.75 * _length)],
-#     #                         'text_right': _text_right[int(0.5 * _length):int(0.75 * _length)],
-#     #                         'label': _label[int(0.5 * _length):int(0.75 * _length)]})
+#     # _df_dev = pd.DataFrame({'id_left': _id_left[int(0.52 * _length):int(0.68 * _length)],
+#     #                         'text_left': _text_left[int(0.52 * _length):int(0.68 * _length)],
+#     #                         'id_right': _id_right[int(0.52 * _length):int(0.68 * _length)],
+#     #                         'text_right': _text_right[int(0.52 * _length):int(0.68 * _length)],
+#     #                         'label': _label[int(0.52 * _length):int(0.68 * _length)]})
 #     #
-#     # _df_test = pd.DataFrame({'id_left': _id_left[int(0.75 * _length):],
-#     #                          'text_left': _text_left[int(0.75 * _length):],
-#     #                          'id_right': _id_right[int(0.75 * _length):],
-#     #                          'text_right': _text_right[int(0.75 * _length):],
-#     #                          'label': _label[int(0.75 * _length):]})
+#     # _df_test = pd.DataFrame({'id_left': _id_left[int(0.68 * _length):],
+#     #                          'text_left': _text_left[int(0.68 * _length):],
+#     #                          'id_right': _id_right[int(0.68 * _length):],
+#     #                          'text_right': _text_right[int(0.68 * _length):],
+#     #                          'label': _label[int(0.68 * _length):]})
 #     _df_train = pd.DataFrame({'id_left': _id_left[:600],
 #                               'text_left': _text_left[:600],
 #                               'id_right': _id_right[:600],

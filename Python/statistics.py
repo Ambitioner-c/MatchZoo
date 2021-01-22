@@ -24,7 +24,7 @@ def statistics(path):
                 total += m['helpful'][1]
             for m in answers:
                 helpful = m['helpful'][0]
-                if helpful >= total/2:
+                if helpful >= total/10:
                     if str(helpful) not in helpful_dict:
                         helpful_dict[str(helpful)] = 1
                     else:
