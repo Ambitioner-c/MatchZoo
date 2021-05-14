@@ -6,8 +6,8 @@ import pandas as pd
 import random
 
 
-def read_tsv():
-    df = pd.read_csv('../Data/video_games/video_games.tsv', sep='\t')
+def read_tsv(path, filename):
+    df = pd.read_csv(path + filename + '.tsv', sep='\t')
 
     return df
 
@@ -42,22 +42,25 @@ def sample(df):
     return tra, dev, tes
 
 
-def write_tsc(tra, dev, tes):
-    tra.to_csv('../Data/video_games/train.tsv', sep='\t', index=False)
+def write_tsc(tra, dev, tes, path, filename):
+    tra.to_csv(path + 'train.tsv', sep='\t', index=False)
     print('File: train.tsv finished.')
 
-    dev.to_csv('../Data/video_games/dev.tsv', sep='\t', index=False)
+    dev.to_csv(path + 'dev.tsv', sep='\t', index=False)
     print('File: dev.tsv finished.')
 
-    tes.to_csv('../Data/video_games/test.tsv', sep='\t', index=False)
+    tes.to_csv(path + 'test.tsv', sep='\t', index=False)
     print('File: test.tsv finished.')
 
 
 if __name__ == '__main__':
+    _path = '../Data/video_games/'
+    _filename = 'video_games'
+
     # 读取全部tsv
-    _df = read_tsv()
+    _df = read_tsv(_path, _filename)
 
     # 抽样
     _tra, _dev, _tes = sample(_df)
 
-    write_tsc(_tra, _dev, _tes)
+    write_tsc(_tra, _dev, _tes, _path, _filename)
