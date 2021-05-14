@@ -57,16 +57,17 @@ def recombination(path):
     return id_left, text_left, id_right, text_right, label
 
 
-def write_tsc(df):
-    df.to_csv('../Data/video_games/video_games.tsv', sep='\t', index=False)
+def write_tsc(df, path, filename):
+    df.to_csv(path + filename + '.tsv', sep='\t', index=False)
     print('File: video_games.tsv finished.')
 
     # train, validate, test = np.split(df.sample(frac=1), [int(.7*len(df)), int(.8*len(df))])
 
 
 if __name__ == '__main__':
-    _path = '../Data/video_games/video_games.json'
-    _id_left, _text_left, _id_right, _text_right, _label = recombination(_path)
+    _path = '../Data/video_games/'
+    _filename = 'video_games'
+    _id_left, _text_left, _id_right, _text_right, _label = recombination(_path + _filename + '.json')
     _length = len(_label)
     # 构造完整的tsv
     _df = pd.DataFrame({'QuestionID': _id_left,
@@ -76,4 +77,4 @@ if __name__ == '__main__':
                         'Label': _label})
 
     # 写入完整tsv
-    write_tsc(_df)
+    write_tsc(_df, _path, _filename)
