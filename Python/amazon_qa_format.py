@@ -38,6 +38,9 @@ def recombination(path):
                     replace('\n', '').replace('\n\r', '')
                 helpful = m['helpful'][0]
 
+                if len(answer) > 512:
+                    answer = answer[:512]
+
                 # 有人认为有用即为有用
                 if helpful is not 0:
                     id_left.append('Q' + str(left_num))
