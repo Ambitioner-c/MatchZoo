@@ -19,6 +19,10 @@ def create_ref(df):
         question_id = row['QuestionID']
         sentence_id = row['SentenceID']
         label = row['Label']
+        if int(label) > 0:
+            label = 1
+        else:
+            label = 0
 
         if question_id not in question_id_set:
             num_1 += 1
@@ -41,7 +45,7 @@ def write_tsv(ref, path, filename):
 
 
 if __name__ == '__main__':
-    _path = '../Data/video_games/'
+    _path = '../Data/video_games_sort_copy/'
     filename_list = ['train', 'dev', 'test']
 
     for i in filename_list:

@@ -42,7 +42,7 @@ def write_tsv(filtered, path, filename):
 
 
 if __name__ == '__main__':
-    _path = '../Data/video_games/'
+    _path = '../Data/video_games_sort_copy/'
     filename_list = ['dev', 'test']
 
     for i in filename_list:

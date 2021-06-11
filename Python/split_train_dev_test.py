@@ -7,7 +7,8 @@ import random
 
 
 def read_tsv(path, filename):
-    df = pd.read_csv(path + filename + '.tsv', sep='\t')
+    df = pd.read_csv(path + filename + '.tsv', sep='\t',
+                     usecols=['QuestionID', 'Question', 'SentenceID', 'Sentence', 'Label'])
 
     return df
 
@@ -54,7 +55,7 @@ def write_tsc(tra, dev, tes, path, filename):
 
 
 if __name__ == '__main__':
-    _path = '../Data/video_games/'
+    _path = '../Data/video_games_sort_copy/'
     _filename = 'video_games'
 
     # 读取全部tsv
